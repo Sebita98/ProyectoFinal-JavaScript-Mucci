@@ -1,0 +1,53 @@
+[
+{
+    "id":"mila1",
+    "nombre": "Milanesas de berenjena",
+    "precio": "2500",
+    "img": "./img/milanga.jpg"
+},
+{
+    "id":"mila2",
+    "nombre": "Milanesas de lomo",
+    "precio": "2900",
+    "img": "./img/milanga2.jpg"
+},
+{
+    "id":"mila3",
+    "nombre": "Milanesas de pescado",
+    "precio": "3200",
+    "img": "./img/milanga3.jpg"
+},
+{
+    "id":"mila4",
+    "nombre": "Milanesas de garbanzo",
+    "precio": "2300",
+    "img": "./img/milanga4.jpg"
+},
+{
+    "id":"mila5",
+    "nombre": "Milanesas de calabaza",
+    "precio": "2400",
+    "img": "./img/milanga5.jpg"
+},
+{
+    "id":"mila6",
+    "nombre": "Milanesas de soja",
+    "precio": "2200",
+    "img": "./img/milanga6.jpg"
+},
+{
+    "id":"mila7",
+    "nombre": "Milanesas de pollo",
+    "precio": "2600",
+    "img": "./img/milanga7.jpg"
+},
+{
+    "id":"mila8",
+    "nombre": "Milanesas de carne/pollo rellenas",
+    "precio": "3000",
+    "img": "./img/milanga8.jpg"
+}
+]
+
+
+

@@ -1,7 +1,8 @@
 const Clickbutton = document.querySelectorAll('.button')
 const tbody = document.querySelector('.tbody')
 let carrito = []
-
+const pills = document.getElementById('pills-tabContent').addEventListener('click', cargarJSON);
+const contenedorProductos = document.querySelector("#pills-profile")
 
 Clickbutton.forEach(btn => {
     btn.addEventListener('click', addToCarritoItem)
@@ -25,17 +26,17 @@ function addToCarritoItem(e) {
 }
 
 function addItemCarrito(newItem) {
-    const alert= document.querySelector('.alert')
+    const alert = document.querySelector('.alert')
 
-    setTimeout(function(){
+    setTimeout(function () {
         alert.classList.add('hide')
     }, 2000)
     alert.classList.remove('hide')
 
     const InputElemento = tbody.getElementsByClassName('input__elemento')
-    for(let i =0; i < carrito.lenght ; i++){
-        if(carrito[i].title.trim() === newItem.title.trim()){
-            carrito[i].cantidad ++;
+    for (let i = 0; i < carrito.lenght; i++) {
+        if (carrito[i].title.trim() === newItem.title.trim()) {
+            carrito[i].cantidad++;
             const inputValue = InputElemento[i]
             inputValue.value++;
             CarritoTotal()
@@ -77,21 +78,21 @@ function renderCarrito() {
     })
 
     CarritoTotal()
- 
+
 }
 
-function CarritoTotal(){
-    let Total = 0; 
+function CarritoTotal() {
+    let Total = 0;
     const itemCartTotal = document.querySelector('.itemCartTotal')
     carrito.forEach((item) => {
         const precio = Number(item.precio.replace("$", ''))
-        Total = Total + precio*item.cantidad
+        Total = Total + precio * item.cantidad
     })
     itemCartTotal.innerHTML = `Total $${Total}`
     addLocalStorage()
 }
 
-function removeItemCarrito(e){
+function removeItemCarrito(e) {
 
     Swal.fire({
         title: '¿Estas seguro que deseas elminar los productos?',
@@ -100,29 +101,29 @@ function removeItemCarrito(e){
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: '¡Si, borralo!'
-      }).then((result) => {
+    }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success'
-          )
+            Swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+            )
         }
-      })
+    })
 
 
     const buttonDelete = e.target
     const tr = buttonDelete.closest(".ItemCarrito")
-    const title= tr.querySelector('.title').textContent;
-    for(let i=0; i<carrito.length ; i++){
-        if(carrito[i].title.trim() === title.trim()){
+    const title = tr.querySelector('.title').textContent;
+    for (let i = 0; i < carrito.length; i++) {
+        if (carrito[i].title.trim() === title.trim()) {
             carrito.splice(i, 1)
         }
     }
 
-    const alert= document.querySelector('.remove')
+    const alert = document.querySelector('.remove')
 
-    setTimeout(function(){
+    setTimeout(function () {
         alert.classList.add('remove')
     }, 2000)
     alert.classList.remove('remove')
@@ -133,12 +134,12 @@ function removeItemCarrito(e){
     CarritoTotal()
 }
 
-function sumaCantidad(e){
+function sumaCantidad(e) {
     const sumaInput = e.target
     const tr = sumaInput.closest(".ItemCarrito")
     const title = tr.querySelector('.title').textContent;
     carrito.forEach(item => {
-        if(item.title.trim() === title){
+        if (item.title.trim() === title) {
             sumaInput.value < 1 ? (sumaInput.value = 1) : sumaInput.value;
             item.cantidad = sumaInput.value;
             CarritoTotal()
@@ -147,14 +148,66 @@ function sumaCantidad(e){
 
 }
 
-function addLocalStorage(){
+function addLocalStorage() {
     localStorage.setItem('carrito', JSON.stringify(carrito))
 }
 
-window.onload = function(){
+window.onload = function () {
     const storage = JSON.parse(localStorage.getItem('carrito'));
-    if(storage){
+    if (storage) {
         carrito = storage;
         renderCarrito()
     }
+}
+
+
+
+function cargarProductos() {
+    productos.forEach(producto => {
+        const div = document.createElement("div");
+        div.classList.add("producto");
+        div.innerHTML = `
+                    <div class="col d-flex justify-content-center mb-4">
+                        <div class="card shadow mb-1 bg-dark rounded" style="width: 20rem;">
+                            <h5 class="card-title pt-2 text-center text-primary">${producto.nombre}</h5>
+                            <img src="${producto.img}" class="card-img-top" alt="${producto.nombre}">
+
+                            <div class="card-body text-center">
+                                <p class="card-text text-white-50 description">Guarnicion con papas fritas, pure o
+                                    ensalada.
+                                </p>
+                                <h5 class="text-primary">Precio: <span class="precio">${producto.precio}</span></h5>
+                                <div class=" d-grid gap-2">
+                                    <button class="btn btn-primary button" id="${producto.id}">Añadir a Carrito</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+        
+        `
+    })
+}
+
+cargarProductos();
+
+
+function cargarJSON() {
+    fetch('productos.json')
+        .then(function (res) {
+            return res.json();
+        })
+        .then(function (products) {
+            let html = '';
+            products.forEach(function (productos) {
+                html += `
+            <li>${productos.nombre} ${productos.precio} ${productos.img} </li>
+            `;
+                document.getElementById('resultado').innerHTML = html;
+            })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+        })
 }
