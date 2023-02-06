@@ -185,7 +185,8 @@ function cargarProductos() {
                         </div>
                     </div>
         
-        `
+        `;
+        contenedorProductos.append(div);
     })
 }
 
