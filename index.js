@@ -1,15 +1,5 @@
-
-
-const Clickbutton = document.querySelectorAll('.button')
 const tbody = document.querySelector('.tbody')
 let carrito = []
-
-
-Clickbutton.forEach(btn => {
-    btn.addEventListener('click', addToCarritoItem)
-})
-
-
 
 function addToCarritoItem(e) {
     const button = e.target
@@ -96,7 +86,6 @@ function CarritoTotal() {
 }
 
 function removeItemCarrito(e) {
-
     Swal.fire({
         title: '¿Estas seguro que deseas elminar los productos?',
         icon: 'question',
@@ -110,31 +99,29 @@ function removeItemCarrito(e) {
                 'Deleted!',
                 'Your file has been deleted.',
                 'success'
-            )
+            ) 
+
+            const buttonDelete = e.target
+            const tr = buttonDelete.closest(".ItemCarrito")
+            const title = tr.querySelector('.title').textContent;
+
+            for (let i = 0; i < carrito.length; i++) {
+                if (carrito[i].title.trim() === title.trim()) {
+                    carrito.splice(i, 1) 
+                }
+            }
+        
+            const alert = document.querySelector('.remove')
+
+            setTimeout(function () {
+                alert.classList.add('remove')
+            }, 2000)
+            alert.classList.remove('remove')
+        
+            tr.remove()
+            CarritoTotal()
         }
     })
-
-
-    const buttonDelete = e.target
-    const tr = buttonDelete.closest(".ItemCarrito")
-    const title = tr.querySelector('.title').textContent;
-    for (let i = 0; i < carrito.length; i++) {
-        if (carrito[i].title.trim() === title.trim()) {
-            carrito.splice(i, 1)
-        }
-    }
-
-    const alert = document.querySelector('.remove')
-
-    setTimeout(function () {
-        alert.classList.add('remove')
-    }, 2000)
-    alert.classList.remove('remove')
-
-
-
-    tr.remove()
-    CarritoTotal()
 }
 
 function sumaCantidad(e) {
@@ -161,51 +148,48 @@ window.onload = function () {
         carrito = storage;
         renderCarrito()
     }
+
+    getMilanesas()
 }
 
-// let milanesas = []
-// const contenedorMilanesas = document.querySelector("#milanesas")
+async function getMilanesas() {
+    await fetch('productos.json')
+        .then(response => response.json())
+        .then(jsonedResponse => {
+            cargarMilanesas(jsonedResponse);
+        })
+        .catch(error => console.log(error))
+}
 
-// function cargarMilanesas() {
-//     milanesas.forEach(producto => {
-//         const div = document.createElement("div");
-//         div.classList.add("producto");
-//         div.innerHTML = `
-//                 <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+function cargarMilanesas(milanesas) {
+    const contenedorMilanesas = document.querySelector("#milanesas");
 
-//                     <div class="col d-flex justify-content-center mb-4">
-//                         <div class="card shadow mb-1 bg-dark rounded" style="width: 20rem;">
-//                             <h5 class="card-title pt-2 text-center text-primary">${producto.nombre}</h5>
-//                             <img src="${producto.imagen}" class="card-img-top" alt="...">
+    milanesas.forEach(producto => {
+       const div = document.createElement("div");
+       div.classList.add("producto");
+       div.innerHTML = `
+           <div class="col d-flex justify-content-center mb-4">
+               <div class="card shadow mb-1 bg-dark rounded" style="width: 20rem;">
+                   <h5 class="card-title pt-2 text-center text-primary">${producto.nombre}</h5>
+                   <img src="${producto.img}" class="card-img-top" alt="...">
+                   <div class="card-body text-center">
+                       <p class="card-text text-white-50 description">Guarnicion con papas fritas, pure o
+                           ensalada.
+                       </p>
+                       <h5 class="text-primary">Precio: <span class="precio">${producto.precio}</span></h5>
+                       <div class=" d-grid gap-2">
+                           <button class="btn btn-primary button">Añadir a Carrito</button>
+                       </div>
+                   </div>
+               </div>
+           </div>    
+       `
+       contenedorMilanesas.append(div);
+    })
 
-//                             <div class="card-body text-center">
-//                                 <p class="card-text text-white-50 description">Guarnicion con papas fritas, pure o
-//                                     ensalada.
-//                                 </p>
-//                                 <h5 class="text-primary">Precio: <span class="precio">${producto.precio}</span></h5>
-//                                 <div class=" d-grid gap-2">
-//                                     <button class="btn btn-primary button">Añadir a Carrito</button>
-//                                 </div>
+    const Clickbutton = document.querySelectorAll('.button');
 
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
-//         `
-//         contenedorMilanesas.append(div);
-//     })
-// }
-
-// cargarMilanesas()
-
-
-// fetch("productos.json")
-//     .then(response => response.json())
-//     .then(data => {
-//         productos = data;
-//         cargarMilanesas(productos)
-//     })
-//     .catch(error => console.log(error));
-
-
-    
+    Clickbutton.forEach(btn => {
+        btn.addEventListener('click', addToCarritoItem)
+    })
+}
