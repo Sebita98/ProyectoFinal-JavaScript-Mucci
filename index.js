@@ -1,13 +1,15 @@
-let productos = [];
+
 
 const Clickbutton = document.querySelectorAll('.button')
 const tbody = document.querySelector('.tbody')
 let carrito = []
-const contenedorProductos = document.querySelector("#pills-profile")
+
 
 Clickbutton.forEach(btn => {
     btn.addEventListener('click', addToCarritoItem)
 })
+
+
 
 function addToCarritoItem(e) {
     const button = e.target
@@ -161,42 +163,49 @@ window.onload = function () {
     }
 }
 
+// let milanesas = []
+// const contenedorMilanesas = document.querySelector("#milanesas")
+
+// function cargarMilanesas() {
+//     milanesas.forEach(producto => {
+//         const div = document.createElement("div");
+//         div.classList.add("producto");
+//         div.innerHTML = `
+//                 <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+
+//                     <div class="col d-flex justify-content-center mb-4">
+//                         <div class="card shadow mb-1 bg-dark rounded" style="width: 20rem;">
+//                             <h5 class="card-title pt-2 text-center text-primary">${producto.nombre}</h5>
+//                             <img src="${producto.imagen}" class="card-img-top" alt="...">
+
+//                             <div class="card-body text-center">
+//                                 <p class="card-text text-white-50 description">Guarnicion con papas fritas, pure o
+//                                     ensalada.
+//                                 </p>
+//                                 <h5 class="text-primary">Precio: <span class="precio">${producto.precio}</span></h5>
+//                                 <div class=" d-grid gap-2">
+//                                     <button class="btn btn-primary button">Añadir a Carrito</button>
+//                                 </div>
+
+//                             </div>
+//                         </div>
+//                     </div>
+//                 </div>
+//         `
+//         contenedorMilanesas.append(div);
+//     })
+// }
+
+// cargarMilanesas()
 
 
-function cargarProductos() {
-    contenedorProductos.innerHTML = "";
-
-    productos.forEach(producto => {
-        const div = document.createElement("div");
-        div.classList.add("row", "row-cols-sm-1", "row-cols-md-2", "row-cols-lg-3", "row-cols-xl-4");
-        div.innerHTML = `
-            <div class="col d-flex justify-content-center mb-4">
-                <div class="card shadow mb-1 bg-dark rounded" style="width: 20rem;">
-                    <h5 class="card-title pt-2 text-center text-primary">${producto.nombre}</h5>
-                    <img src=${producto.img} class="card-img-top" alt="...">
-
-                    <div class="card-body text-center">
-                        <p class="card-text text-white-50 description">Guarnicion con papas fritas, pure o
-                        ensalada.
-                        </p>
-                        <h5 class="text-primary">Precio: <span class="precio">${producto.precio}</span></h5>
-                    <div class=" d-grid gap-2">
-                    <button class="btn btn-primary button">Añadir a Carrito</button>
-                </div>
-            </div>
-    `;
-        contenedorProductos.append(div)
-    })
-
-}
-
-cargarProductos();
+// fetch("productos.json")
+//     .then(response => response.json())
+//     .then(data => {
+//         productos = data;
+//         cargarMilanesas(productos)
+//     })
+//     .catch(error => console.log(error));
 
 
-fetch("productos.json")
-    .then(response => response.json())
-    .then(data => {
-        productos = data;
-        cargarProductos(productos)
-    })
-    .catch(error => console.log(error));
+    
